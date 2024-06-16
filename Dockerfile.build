@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim AS build
 
-ARG ANDROID_PATCH BUILD_ENV=local MIRROR_URL=http://ftp.cn.debian.org/debian/ EC_HOST
+ARG ANDROID_PATCH BUILD_ENV=local MIRROR_URL=http://ftp.au.debian.org/debian/ EC_HOST
 
 COPY ["./build-scripts/config-apt.sh", "./build-scripts/get-echost-names.sh", "/tmp/build-scripts/"]
 
@@ -29,7 +29,8 @@ RUN cd /tmp/src/ && \
     busybox unzip tinyproxy.zip && mv tinyproxy-${TINYPROXY_COMMIT} tinyproxy && cd tinyproxy && \
     ./autogen.sh --prefix=/usr && make && install -D src/tinyproxy /results/tinyproxy-ws/usr/bin/tinyproxy
 
-ARG NOVNC_METHOD=min-size GOPROXY=http://proxy.golang.com.cn,direct
+ARG NOVNC_METHOD=min-size
+ # GOPROXY=http://proxy.golang.com.cn,direct
 
 RUN cd /tmp/src/ && \
     case "${NOVNC_METHOD}" in \
